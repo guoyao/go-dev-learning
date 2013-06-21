@@ -9,10 +9,19 @@ package main
 import "fmt"
 
 func main() {
-//	test()
-//	testSlice()
-	testMap()
+	//	test()
+	//	testSlice()
+	//	testMap()
 	//	fmt.Println(fibonacci(40))
+	//	fmt.Println(add([]int{1, 2, 3, 4, 5}...))
+//	closure()
+
+	//	nextEven := makeEvenGenerator()
+	//	fmt.Println(nextEven()) // 0
+	//	fmt.Println(nextEven()) // 2
+	//	fmt.Println(nextEven()) // 4
+
+	fmt.Println(factorial(5))
 }
 
 func test() {
@@ -36,6 +45,8 @@ func testSlice() {
 	slice2 := make([]int, 2)
 	copy(slice2, slice1)
 	fmt.Println(slice1, slice2)
+	slice3 := make([]int,3, 9)
+	fmt.Println(len(slice3))
 }
 
 func testMap() {
@@ -50,9 +61,40 @@ func testMap() {
 	}
 }
 
-func fibonacci(n uint) (result uint) {
+func fibonacci(n uint) uint {
 	if n < 2 {
 		return n
 	}
 	return fibonacci(n - 2) + fibonacci(n - 1)
+}
+
+func add(args ...int) int {
+	total := 0
+	for _, value := range args {
+		total += value
+	}
+	return total
+}
+
+func closure() {
+	add := func(x, y int) int {
+		return x + y
+	}
+	fmt.Println(add(5, 10))
+}
+
+func makeEvenGenerator() func () uint {
+	i := uint(0)
+	return func() (ret uint) {
+		ret = i
+		i += 2
+		return
+	}
+}
+
+func factorial(x uint) uint {
+	if x == 0 {
+		return 1
+	}
+	return x*factorial(x - 1)
 }
