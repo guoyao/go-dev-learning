@@ -9,7 +9,8 @@ package main
 import (
 	"fmt"
 	"math"
-	"concurrency"
+//	"chapter10/concurrency"
+	ownMath "chapter11/math"
 )
 
 type Shape interface {
@@ -76,7 +77,9 @@ func main() {
 //	android := new(Android)
 //	android.talk()
 
-	concurrency.Run()
+//	concurrency.Run()
+
+	fmt.Println(ownMath.Average([]float64 {1, 2, 3}))
 }
 
 func test() {
