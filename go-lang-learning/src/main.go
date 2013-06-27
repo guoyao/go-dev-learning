@@ -10,7 +10,9 @@ import (
 	"fmt"
 	"math"
 //	"chapter10/concurrency"
-	ownMath "chapter11/math"
+//	ownMath "chapter11/math"
+//	"chapter13/file"
+	"chapter13/container"
 )
 
 type Shape interface {
@@ -79,7 +81,17 @@ func main() {
 
 //	concurrency.Run()
 
-	fmt.Println(ownMath.Average([]float64 {1, 2, 3}))
+//	fmt.Println(ownMath.Average([]float64 {1, 2, 3}))
+//
+//	arr := []byte("test")
+//	str := string([]byte{'t','e','s','t'})
+//	fmt.Println(arr, str)
+//
+//	bs := make([]byte, 5, 10)
+//	fmt.Println(len(bs))
+
+//	file.Main()
+	container.Main()
 }
 
 func test() {

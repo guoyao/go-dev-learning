@@ -12,5 +12,8 @@ func Average(value []float64) float64 {
 	for _, x := range value {
 		total += x
 	}
-	return total / float64(len(value))
+	if len(value) > 0 {
+		return total / float64(len(value))
+	}
+	return 0
 }
