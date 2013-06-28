@@ -12,7 +12,10 @@ import (
 //	"chapter10/concurrency"
 //	ownMath "chapter11/math"
 //	"chapter13/file"
-	"chapter13/container"
+//	"chapter13/container"
+//	"chapter13/servers"
+//	"chapter13/arguments"
+	"chapter13/lock"
 )
 
 type Shape interface {
@@ -91,7 +94,12 @@ func main() {
 //	fmt.Println(len(bs))
 
 //	file.Main()
-	container.Main()
+//	container.Main()
+//	servers.Main()
+
+//	arguments.Main()
+
+	lock.Main()
 }
 
 func test() {
