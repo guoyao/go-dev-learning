@@ -17,45 +17,49 @@ type Session struct {
 	LastAccess time.Time
 }
 
-const (
-	CookieName = "go_cookie"
-	MaxLifeTime int64 = 30
-)
+type Manager struct {
+	CookieName string
+	MaxLifeTime int64
+	sessions map[string]*Session
+}
 
-var sessions map[string]*Session
+var SessionManager Manager;
 
-func Add(value string) {
-	if _, ok := sessions[value]; ok {
-		fmt.Printf("Add new session failed, session '%s' already exists.", value)
+func (manager *Manager) AddSession(cookieValue string) {
+	if _, ok := manager.sessions[cookieValue]; ok {
+		fmt.Printf("Add new session failed, session '%s' already exists.", cookieValue)
 	} else {
-		session := Session{value, value, time.Now()}
-		sessions[value] = &session
+		manager.sessions[cookieValue] = &Session{cookieValue, cookieValue, time.Now()}
 	}
 }
 
-func Exists(key string) bool {
-	_, ok := sessions[key]
+func (manager *Manager) exists(key string) bool {
+	_, ok := manager.sessions[key]
 	return ok
 }
 
-func Update(key string) {
-	if Exists(key) {
-		sessions[key].LastAccess = time.Now()
+func (manager *Manager) UpdateSession(cookieValue string) {
+	if manager.exists(cookieValue) {
+		manager.sessions[cookieValue].LastAccess = time.Now()
 	}
 }
 
-func GC() {
-	for key, _ := range sessions {
-		if sessions[key].LastAccess.Unix() + MaxLifeTime < time.Now().Unix() {
-			delete(sessions, key)
+func (manager *Manager) gc() {
+	for key, _ := range manager.sessions {
+		if manager.sessions[key].LastAccess.Unix() + manager.MaxLifeTime < time.Now().Unix() {
+			delete(manager.sessions, key)
 		}
 	}
-	time.AfterFunc(time.Duration(MaxLifeTime), func() {
-		GC()
+	time.AfterFunc(time.Duration(manager.MaxLifeTime), func() {
+		manager.gc()
 	})
 }
 
+func gc() {
+	SessionManager.gc()
+}
+
 func init() {
-	sessions = make(map[string]*Session)
-	go GC()
+	SessionManager = Manager{"GO_SESSION", 20, make(map[string]*Session)}
+	go gc()
 }

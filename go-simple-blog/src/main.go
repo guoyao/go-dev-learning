@@ -51,9 +51,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 		username := r.Form.Get("username")
 		password := r.Form.Get("password")
 		if username == "guoyao" && password == "123456" {
-			cookie := http.Cookie{Name: session.CookieName, Value: username, Path: "/", HttpOnly: true, MaxAge: int(session.MaxLifeTime)}
+			cookie := http.Cookie{Name: session.SessionManager.CookieName, Value: username, Path: "/", HttpOnly: true, MaxAge: int(session.SessionManager.MaxLifeTime)}
 			http.SetCookie(w, &cookie)
-			session.Add(username)
+			session.SessionManager.AddSession(username)
 			http.Redirect(w, r, "/", 302)
 		} else {
 			http.Redirect(w, r, "/login", 302)
@@ -63,8 +63,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 func updateCookie(r *http.Request) (result bool) {
 	result = false
-	if cookie, err := r.Cookie(session.CookieName); err == nil {
-		session.Update(cookie.Value)
+	if cookie, err := r.Cookie(session.SessionManager.CookieName); err == nil {
+		session.SessionManager.UpdateSession(cookie.Value)
 		result = true
 	}
 	fmt.Println("cookie exists:", result)
