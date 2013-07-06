@@ -9,7 +9,6 @@ package session
 import (
 	"time"
 	"fmt"
-	"net/http"
 )
 
 type Session struct {
@@ -19,13 +18,13 @@ type Session struct {
 }
 
 const (
-	cookieName = "go_cookie"
-	maxLifeTime int64 = 5000
+	CookieName = "go_cookie"
+	MaxLifeTime int64 = 30
 )
 
 var sessions map[string]*Session
 
-func Add(w http.ResponseWriter, r *http.Request, value string) {
+func Add(value string) {
 	if _, ok := sessions[value]; ok {
 		fmt.Printf("Add new session failed, session '%s' already exists.", value)
 	} else {
@@ -47,12 +46,16 @@ func Update(key string) {
 
 func GC() {
 	for key, _ := range sessions {
-		if sessions[key].LastAccess.Unix() + maxLifeTime < time.Now().Unix() {
+		if sessions[key].LastAccess.Unix() + MaxLifeTime < time.Now().Unix() {
 			delete(sessions, key)
 		}
 	}
+	time.AfterFunc(time.Duration(MaxLifeTime), func() {
+		GC()
+	})
 }
 
 func init() {
 	sessions = make(map[string]*Session)
+	go GC()
 }

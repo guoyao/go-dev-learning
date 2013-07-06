@@ -29,12 +29,17 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
+	updateCookie(r)
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "Hello Go Simple Blog")
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
+		if updateCookie(r) {
+			http.Redirect(w, r, "/", 302)
+			return
+		}
 		crutime := time.Now().Unix()
 		h := md5.New()
 		io.WriteString(h, strconv.FormatInt(crutime, 10))
@@ -48,10 +53,20 @@ func login(w http.ResponseWriter, r *http.Request) {
 		if username == "guoyao" && password == "123456" {
 			cookie := http.Cookie{Name: session.CookieName, Value: username, Path: "/", HttpOnly: true, MaxAge: int(session.MaxLifeTime)}
 			http.SetCookie(w, &cookie)
-			session.Add(username, password)
+			session.Add(username)
 			http.Redirect(w, r, "/", 302)
 		} else {
 			http.Redirect(w, r, "/login", 302)
 		}
 	}
+}
+
+func updateCookie(r *http.Request) (result bool) {
+	result = false
+	if cookie, err := r.Cookie(session.CookieName); err == nil {
+		session.Update(cookie.Value)
+		result = true
+	}
+	fmt.Println("cookie exists:", result)
+	return
 }
