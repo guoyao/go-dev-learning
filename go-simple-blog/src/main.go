@@ -16,7 +16,16 @@ import (
 	"strconv"
 	"log"
 	"session"
+	_ "session/memory"
+	"strings"
 )
+
+var globalSessions *session.Manager
+
+func init() {
+	globalSessions, _ = session.NewManager("memory", "gosessionid", 3600)
+	go globalSessions.GC()
+}
 
 func main() {
 	http.HandleFunc("/", index)
@@ -29,14 +38,16 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	updateCookie(r)
+	if globalSessions.SessionExists(w, r) {
+		globalSessions.SessionStart(w, r)
+	}
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "Hello Go Simple Blog")
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		if updateCookie(r) {
+		if globalSessions.SessionExists(w, r) {
 			http.Redirect(w, r, "/", 302)
 			return
 		}
@@ -50,23 +61,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		username := r.Form.Get("username")
 		password := r.Form.Get("password")
-		if username == "guoyao" && password == "123456" {
-			cookie := http.Cookie{Name: session.SessionManager.CookieName, Value: username, Path: "/", HttpOnly: true, MaxAge: int(session.SessionManager.MaxLifeTime)}
-			http.SetCookie(w, &cookie)
-			session.SessionManager.AddSession(username)
+		if strings.Trim(username, " ") != "" && strings.Trim(password, " ") != "" {
+			globalSessions.SessionStart(w, r)
 			http.Redirect(w, r, "/", 302)
 		} else {
 			http.Redirect(w, r, "/login", 302)
 		}
 	}
-}
-
-func updateCookie(r *http.Request) (result bool) {
-	result = false
-	if cookie, err := r.Cookie(session.SessionManager.CookieName); err == nil {
-		session.SessionManager.UpdateSession(cookie.Value)
-		result = true
-	}
-	fmt.Println("cookie exists:", result)
-	return
 }
