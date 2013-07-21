@@ -16,8 +16,9 @@ import (
 //	"chapter13/servers"
 //	"chapter13/arguments"
 //	"chapter13/lock"
-	"my_reflect"
-	"os"
+//	"my_reflect"
+//	"os"
+	_ "template"
 )
 
 type Shape interface {
@@ -103,8 +104,8 @@ func main() {
 
 //	lock.Main()
 
-	my_reflect.Main()
-	fmt.Println(len(os.Args))
+//	my_reflect.Main()
+//	fmt.Println(len(os.Args))
 }
 
 func test() {
