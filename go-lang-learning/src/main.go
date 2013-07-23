@@ -19,6 +19,7 @@ import (
 //	"my_reflect"
 //	"os"
 	_ "template"
+	_ "closure"
 )
 
 type Shape interface {
