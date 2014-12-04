@@ -9,17 +9,18 @@ package main
 import (
 	"fmt"
 	"math"
-//	"chapter10/concurrency"
-//	ownMath "chapter11/math"
-//	"chapter13/file"
-//	"chapter13/container"
-//	"chapter13/servers"
-//	"chapter13/arguments"
-//	"chapter13/lock"
-//	"my_reflect"
-//	"os"
-	_ "template"
-	_ "closure"
+	//	"chapter10/concurrency"
+	//	ownMath "chapter11/math"
+	//	"chapter13/file"
+	//	"chapter13/container"
+	//	"chapter13/servers"
+	//	"chapter13/arguments"
+	//	"chapter13/lock"
+	//	"my_reflect"
+	//	"os"
+	//_ "closure"
+	//_ "template"
+	_ "test"
 )
 
 type Shape interface {
@@ -28,7 +29,7 @@ type Shape interface {
 }
 
 type Circle struct {
-	x,  y,  r float64
+	x, y, r float64
 }
 
 type Rectangle struct {
@@ -49,64 +50,64 @@ type Android struct {
 }
 
 func main() {
-//	test()
-//	testSlice()
-//	testMap()
-//	fmt.Println(fibonacci(40))
-//	fmt.Println(add([]int{1, 2, 3, 4, 5}...))
-//	closure()
+	//	test()
+	//	testSlice()
+	//	testMap()
+	//	fmt.Println(fibonacci(40))
+	//	fmt.Println(add([]int{1, 2, 3, 4, 5}...))
+	//	closure()
 
-//	nextEven := makeEvenGenerator()
-//	fmt.Println(nextEven()) // 0
-//	fmt.Println(nextEven()) // 2
-//	fmt.Println(nextEven()) // 4
+	//	nextEven := makeEvenGenerator()
+	//	fmt.Println(nextEven()) // 0
+	//	fmt.Println(nextEven()) // 2
+	//	fmt.Println(nextEven()) // 4
 
-//	fmt.Println(factorial(5))
+	//	fmt.Println(factorial(5))
 
-//	x, y := 0, 1
-//	fmt.Println(x, y)
-//	swap(&x, &y)
-//	fmt.Println(x, y)
+	//	x, y := 0, 1
+	//	fmt.Println(x, y)
+	//	swap(&x, &y)
+	//	fmt.Println(x, y)
 
-//	c := Circle{0, 0, 5}
-//	fmt.Printf("%f - %f\n", c.perimeter(), c.area())
-//
-//	r := Rectangle{0, 0, 5, 5}
-//	fmt.Printf("%f - %f\n", r.perimeter(), r.area())
-//
-//	fmt.Println(totalAreas(&c, &r))
-//
-//	m := MultiShape{[]Shape{&c, &r}}
-//	fmt.Printf("%f - %f\n", m.perimeter(), m.area())
-//
-//	m2 := MultiShape{[]Shape{&m, &c}}
-//	fmt.Printf("%f - %f\n", m2.perimeter(), m2.area())
+	//	c := Circle{0, 0, 5}
+	//	fmt.Printf("%f - %f\n", c.perimeter(), c.area())
+	//
+	//	r := Rectangle{0, 0, 5, 5}
+	//	fmt.Printf("%f - %f\n", r.perimeter(), r.area())
+	//
+	//	fmt.Println(totalAreas(&c, &r))
+	//
+	//	m := MultiShape{[]Shape{&c, &r}}
+	//	fmt.Printf("%f - %f\n", m.perimeter(), m.area())
+	//
+	//	m2 := MultiShape{[]Shape{&m, &c}}
+	//	fmt.Printf("%f - %f\n", m2.perimeter(), m2.area())
 
-//	p := Person{"Guoyao"}
-//	android := new(Android)
-//	android.talk()
+	//	p := Person{"Guoyao"}
+	//	android := new(Android)
+	//	android.talk()
 
-//	concurrency.Run()
+	//	concurrency.Run()
 
-//	fmt.Println(ownMath.Average([]float64 {1, 2, 3}))
-//
-//	arr := []byte("test")
-//	str := string([]byte{'t','e','s','t'})
-//	fmt.Println(arr, str)
-//
-//	bs := make([]byte, 5, 10)
-//	fmt.Println(len(bs))
+	//	fmt.Println(ownMath.Average([]float64 {1, 2, 3}))
+	//
+	//	arr := []byte("test")
+	//	str := string([]byte{'t','e','s','t'})
+	//	fmt.Println(arr, str)
+	//
+	//	bs := make([]byte, 5, 10)
+	//	fmt.Println(len(bs))
 
-//	file.Main()
-//	container.Main()
-//	servers.Main()
+	//	file.Main()
+	//	container.Main()
+	//	servers.Main()
 
-//	arguments.Main()
+	//	arguments.Main()
 
-//	lock.Main()
+	//	lock.Main()
 
-//	my_reflect.Main()
-//	fmt.Println(len(os.Args))
+	//	my_reflect.Main()
+	//	fmt.Println(len(os.Args))
 }
 
 func test() {
@@ -116,7 +117,7 @@ func test() {
 		result *= x[i]
 	}
 	fmt.Println(result)
-	fmt.Println(result/float64(len(x)))
+	fmt.Println(result / float64(len(x)))
 
 	result = 0
 	for _, value := range x {
@@ -126,11 +127,11 @@ func test() {
 }
 
 func testSlice() {
-	slice1 := []int {1, 2, 3}
+	slice1 := []int{1, 2, 3}
 	slice2 := make([]int, 2)
 	copy(slice2, slice1)
 	fmt.Println(slice1, slice2)
-	slice3 := make([]int,3, 9)
+	slice3 := make([]int, 3, 9)
 	fmt.Println(len(slice3))
 }
 
@@ -150,7 +151,7 @@ func fibonacci(n uint) uint {
 	if n < 2 {
 		return n
 	}
-	return fibonacci(n - 2) + fibonacci(n - 1)
+	return fibonacci(n-2) + fibonacci(n-1)
 }
 
 func add(args ...int) int {
@@ -168,7 +169,7 @@ func closure() {
 	fmt.Println(add(5, 10))
 }
 
-func makeEvenGenerator() func () uint {
+func makeEvenGenerator() func() uint {
 	i := uint(0)
 	return func() (ret uint) {
 		ret = i
@@ -181,7 +182,7 @@ func factorial(x uint) uint {
 	if x == 0 {
 		return 1
 	}
-	return x*factorial(x - 1)
+	return x * factorial(x-1)
 }
 
 func swap(x, y *int) {
@@ -197,11 +198,11 @@ func distance(x1, y1, x2, y2 float64) float64 {
 }
 
 func circleArea(c *Circle) float64 {
-	return math.Pi*c.r*c.r
+	return math.Pi * c.r * c.r
 }
 
 func (c *Circle) area() float64 {
-	return math.Pi*c.r*c.r
+	return math.Pi * c.r * c.r
 }
 
 func (c *Circle) perimeter() float64 {
@@ -233,7 +234,7 @@ func (m *MultiShape) perimeter() float64 {
 	for _, shape := range m.shapes {
 		perimeter += shape.perimeter()
 	}
-	return perimeter;
+	return perimeter
 }
 
 func totalAreas(shapes ...Shape) float64 {
