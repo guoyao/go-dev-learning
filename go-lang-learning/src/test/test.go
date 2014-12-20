@@ -42,4 +42,14 @@ func init() {
 	fmt.Println(user.getName())
 	user.setName("baby")
 	fmt.Println(user.getName())
+
+	arr := [...]int{1, 2, 5}
+	slice1 := arr[:2:2]
+	fmt.Println(len(arr), cap(arr))
+	fmt.Println(slice1)
+	fmt.Println(len(slice1), cap(slice1))
+	slice1 = slice1[:cap(slice1)]
+	fmt.Println(len(slice1), cap(slice1), slice1)
+	slice1 = arr[:3]
+	fmt.Println(slice1)
 }
