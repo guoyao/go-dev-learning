@@ -20,7 +20,7 @@ import (
 	//	"os"
 	//_ "closure"
 	//_ "template"
-	_ "test"
+	_ "go-lang-learning/test"
 )
 
 type Shape interface {
