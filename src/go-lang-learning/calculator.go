@@ -7,13 +7,13 @@ import (
 )
 
 const (
-	MAX = 4200000000
+	MAX = 50000000000
 )
 
-func add(start, end int) int64 {
-	var result int64 = 0
+func add(start, end int) uint64 {
+	var result uint64 = 0
 	for i := start; i <= end; i++ {
-		result = result + int64(i)
+		result = result + uint64(i)
 	}
 	return result
 }
@@ -48,22 +48,22 @@ func test_toSegments() {
 	fmt.Println(segments)
 }
 
-func add2(start, end int, c chan int64) {
+func add2(start, end int, c chan uint64) {
 	c <- add(start, end)
 }
 
-func parallelAdd(start, end int) int64 {
+func parallelAdd(start, end int) uint64 {
 	var cpus int = runtime.NumCPU()
 	//if cpus == 1 {
 	//	cpus = 100
 	//}
 	fmt.Println("NumCPU:", cpus)
-	var c chan int64 = make(chan int64, runtime.NumCPU())
+	var c chan uint64 = make(chan uint64, runtime.NumCPU())
 	var segments []Segment = toSegments(start, end, cpus)
 	for _, segment := range segments {
 		go add2(segment.start, segment.end, c)
 	}
-	var result int64 = 0
+	var result uint64 = 0
 	for i := 0; i < cpus; i++ {
 		result += <-c
 	}
@@ -80,6 +80,6 @@ func test_parallelAdd() {
 }
 
 func main() {
-	test_add()
+	//test_add()
 	test_parallelAdd()
 }
