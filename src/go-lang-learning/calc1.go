@@ -57,14 +57,25 @@ func hello(c chan interface{}) {
 	fmt.Println("hello")
 }
 
+type Person struct {
+	Age   int
+	Names []string
+}
+
 func main() {
-	content, err := readFile(os.Getenv("HOME") + "/.vimrc")
-	if err == nil {
-		fmt.Println(content)
-	}
+	//content, err := readFile(os.Getenv("HOME") + "/.vimrc")
+	//if err == nil {
+	//	fmt.Println(content)
+	//}
 
 	c := make(chan interface{}, 1)
 	go hello(c)
 	i := <-c
 	fmt.Println(i)
+
+	person := &Person{
+		20, []string{"hell\"dsdf'o", "world"},
+	}
+
+	fmt.Println(*person)
 }
