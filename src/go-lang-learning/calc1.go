@@ -4,6 +4,8 @@ import "fmt"
 import "os"
 import "io"
 import "bufio"
+import "crypto/hmac"
+import "crypto/sha256"
 
 func readFile(path string) (result string, err error) {
 	result = ""
@@ -52,6 +54,12 @@ func (s Slice) remove(index int) (*int, Slice) {
 	return &removed, s
 }
 
+func toHmac(message, key []byte) []byte {
+	mac := hmac.New(sha256.New, key)
+	mac.Write(message)
+	return mac.Sum(nil)
+}
+
 func hello(c chan interface{}) {
 	c <- "1"
 	fmt.Println("hello")
@@ -78,4 +86,6 @@ func main() {
 	}
 
 	fmt.Println(*person)
+
+	fmt.Println(string(toHmac([]byte("bad522c2126a4618a8125f4b6cf6356f"), []byte("bce-auth-v1/0b0f67dfb88244b289b72b142befad0c/2015-04-27T08:23:49Z/1800"))))
 }
