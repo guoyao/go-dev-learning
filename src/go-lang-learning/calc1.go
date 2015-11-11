@@ -6,6 +6,7 @@ import "io"
 import "bufio"
 import "crypto/hmac"
 import "crypto/sha256"
+import "encoding/hex"
 
 func readFile(path string) (result string, err error) {
 	result = ""
@@ -54,10 +55,10 @@ func (s Slice) remove(index int) (*int, Slice) {
 	return &removed, s
 }
 
-func toHmac(message, key []byte) []byte {
-	mac := hmac.New(sha256.New, key)
-	mac.Write(message)
-	return mac.Sum(nil)
+func toHmac(secret, prefix []byte) string {
+	mac := hmac.New(sha256.New, secret)
+	mac.Write(prefix)
+	return hex.EncodeToString(mac.Sum(nil))
 }
 
 func hello(c chan interface{}) {
@@ -87,5 +88,10 @@ func main() {
 
 	fmt.Println(*person)
 
-	fmt.Println(string(toHmac([]byte("bad522c2126a4618a8125f4b6cf6356f"), []byte("bce-auth-v1/0b0f67dfb88244b289b72b142befad0c/2015-04-27T08:23:49Z/1800"))))
+	sk := []byte("bad522c2126a4618a8125f4b6cf6356f")
+	authStringPrefix := []byte("bce-auth-v1/0b0f67dfb88244b289b72b142befad0c/2015-04-27T08:23:49Z/1800")
+
+	signingKey := toHmac(sk, authStringPrefix)
+
+	fmt.Println(signingKey)
 }
